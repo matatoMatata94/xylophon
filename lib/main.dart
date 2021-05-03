@@ -1,4 +1,4 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,16 +10,18 @@ class XylophonApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void playAudio(int audioNumber) {
-      AudioPlayer(playerId: 'note$audioNumber.wav');
+      final player = AudioCache();
+      player.play('note$audioNumber.wav');
     }
 
-    Expanded buildWidget(int audioNumber) {
+    Expanded buildWidget(int audioNumber, Color color) {
       return Expanded(
         child: MaterialButton(
+          enableFeedback: false,
           onPressed: () {
             playAudio(audioNumber);
           },
-          color: Colors.red,
+          color: color,
         ),
       );
     }
@@ -28,18 +30,20 @@ class XylophonApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.black,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            buildWidget(1),
-            buildWidget(2),
-            buildWidget(3),
-            buildWidget(4),
-            buildWidget(5),
-            buildWidget(6),
-            buildWidget(7),
-          ],
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              buildWidget(1, Colors.red),
+              buildWidget(2, Colors.orange),
+              buildWidget(3, Colors.yellow),
+              buildWidget(4, Colors.green),
+              buildWidget(5, Colors.lightBlue),
+              buildWidget(6, Colors.blue[800]),
+              buildWidget(7, Colors.purple),
+            ],
+          ),
         ),
       ),
     );
